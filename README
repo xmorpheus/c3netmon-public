@@ -26,8 +26,8 @@ CONFIGURATION
 3a. cd backend/; node app.js
 3b. cd frontend/; node app.js
 4. test c3netmon with your web broweser
-4. disable dummy data & debug mode in backend config
-5. write your own scripts and modify the frontend & backend to use your data!
+5. disable dummy data & debug mode in backend config
+6. write your own scripts and modify the frontend & backend to use your data!
 
 STARTUP BACKEND (start memcached first!)
 
