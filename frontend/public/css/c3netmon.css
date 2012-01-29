@@ -1,0 +1,171 @@
+body {
+  font-family: Signika, Signika-Light, Signika-Semibold, Verdana;
+  font-size: 13px;
+  padding-top: 20px;
+  background: #222 url(/img/carbon_fibre_big.png);
+  color: #38A535;
+}
+
+#container {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #000;
+  border: 2px solid #222;
+  -webkit-border-radius: 10px 10px;
+  -moz-border-radius: 10px / 10px;
+  -o-border-radius: 10px / 10px;
+  -ms-border-radius: 10px / 10px;
+  -khtml-border-radius: 10px / 10px;
+  border-radius: 10px / 10px;
+}
+
+.metal-box {
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 10px;
+  text-shadow: 0px 1px 0px #fff;
+  background: #ffffff;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #ffffff), color-stop(100%, #999999));
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #999999 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #999999 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#999999'); /* IE6–IE9 */
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
+  border-bottom: 2px solid #666;
+}
+.caption {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.gauge-title {
+  font-size: 18px;
+  color: #333;
+  text-transform: uppercase;
+}
+#bw .gauge-title,
+#clients .gauge-title,
+#poc .gauge-title,
+#streaming .gauge-title {  
+  line-height: 0px;
+  padding-left: 8px;
+}
+
+
+.gauge-value {
+  font-size: 20px;
+  line-height: 7px;
+}
+.gauge {    
+  background: #000;
+  padding: 10px;
+  text-shadow: 0px 0px 6px #38A535;
+  border: 1px solid #ddd;  
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px / 10px;
+  -o-border-radius: 10px / 10px;
+  -ms-border-radius: 10px / 10px;
+  -khtml-border-radius: 10px / 10px;  
+  border-radius: 10px / 10px;
+  background: #000000;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #000000), color-stop(100%, #333333));
+  background-image: -moz-linear-gradient(top, #000000 0%, #333333 100%);
+  background-image: linear-gradient(top, #000000 0%, #333333 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#000000', EndColorStr='#333333'); /* IE6–IE9 */
+  -moz-box-shadow: 0px 0px 20px #000 inset; 
+  -webkit-box-shadow: 0px 0px 20px #000 inset; 
+  box-shadow: 0px 0px 20px #000 inset;
+}
+#bw .gauge,
+#clients .gauge,
+#poc .gauge,
+#streaming .gauge { 
+  height: 260px;
+}
+
+img.logo {
+  float: left;
+  width: 100px;
+  height: 100px;
+}
+
+.header {
+  height: 110px;
+  margin-left: 120px;
+}
+
+h2 {  
+  color: #a1cd89;
+}
+
+#info {
+  color: #000;
+  line-height: 19px;
+  text-shadow: 0px 1px 0px #fff;
+  margin: 5px;
+  margin-top: 20px;
+  padding: 10px;
+  background: #ffffff;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #ffffff), color-stop(100%, #cccccc));
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #cccccc 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #cccccc 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#cccccc'); /* IE6–IE9 */
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
+}
+#info a {
+  color: #000;
+  font-weight: bold;
+}
+
+#loading {
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  display: block;
+  opacity: 0.9;
+  background-color: #fff;
+  z-index: 99;
+  text-align: center;
+}
+
+#loading-image {
+  position: absolute;
+  top: 250px;
+  left: 50%;
+  z-index: 100;
+}
+
+.ui-widget-header  {
+  border: 1px solid #12900f;
+}
+.ui-widget-content {
+  border: 1px solid #12900f;
+  -moz-box-shadow: 0px 0px 4px #12900f; 
+  -webkit-box-shadow: 0px 0px 4px #12900f; 
+  box-shadow: 0px 0px 4px #12900f;
+}
+
+.graph-box {
+  background:#000;  
+  width:425px;
+}
+.graph-legend {  
+  color: #38A535;
+  text-shadow: 0px 0px 2px #38A535;
+  padding: 5px;  
+  padding-left: 0px;
+  border: 0px;
+  background: none;
+}

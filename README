@@ -1,0 +1,59 @@
+       333333                 tt                               
+  cccc    3333 nn nnn    eee  tt    mm mm mmmm   oooo  nn nnn  
+cc       3333  nnn  nn ee   e tttt  mmm  mm  mm oo  oo nnn  nn 
+cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn 
+ ccccc 333333  nn   nn  eeeee  tttt mmm  mm  mm  oooo  nn   nn 
+(c) - morpheus - morpheus@morphhome.net
+    - UI by _exe
+
+AUTOMATIC INSTALL
+
+1. install & start memcache
+2. install Node.Js (http://nodejs.org/)
+3. install npm (http://npmjs.org/)
+4. git clone https://github.com/FremaksGmbH/c3netmon-public.git
+5. cd c3netmon-public; chmod +x install.sh; ./install.sh
+
+CONFIGURATION
+
+1. change backend config in backend/config.js
+1a. change user + group to an existing system user (not root!)
+1b. change memcache ip + port so it fits your memcache config
+2. change frontend config in backend/config.js
+2a. change user + group to an existing system user which has write access to public directory (not root!)
+2b. change memcache ip + port so it fits your memcache config
+3. test if c3netmon is working by starting frontend & backend
+3a. cd backend/; node app.js
+3b. cd frontend/; node app.js
+4. test c3netmon with your web broweser
+4. disable dummy data & debug mode in backend config
+5. write your own scripts and modify the frontend & backend to use your data!
+
+STARTUP BACKEND (start memcached first!)
+
+cd backend
+NODE_ENV=production node app.js
+
+STARTUP FRONTEND (start memcached first!)
+
+cd frontend
+NODE_ENV=production node app.js
+
+EXTERNAL LIBRARIES USED
+
+- nodememcache -> See https://github.com/elbart/node-memcache
+- node express -> See http://expressjs.com/
+- Rickshaw -> Copyright (C) 2011 by Shutterstock Images, LLC -> See https://github.com/shutterstock/rickshaw
+- jQuery JavaScript Library v1.7.1 -> Copyright (C) 2011 by The Dojo Foundation -> See http://jquery.org/
+- Socket.IO.js ->  Copyright (C) 2011 by LearnBoost -> See http://socket.io/
+- d3 -> Copyright (C) 2011 Mike Bostock -> See http://mbostock.github.com/d3/
+- jQuery UI 1.8.16 -> Copyright 2011, AUTHORS.txt -> See http://jqueryui.com/about 
+
+LICENSE 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
