@@ -5,7 +5,7 @@ npm install memcache
 npm install socket.io-client
 npm install socket.io
 npm install express
-mkdir publis/misc
+mkdir public/misc
 cd public/misc
 wget http://code.jquery.com/jquery-1.7.1.min.js -O jquery-1.7.1.min.js
 wget https://github.com/mbostock/d3/zipball/v2.7.3 -O d3.zip
