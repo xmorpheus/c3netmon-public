@@ -14,7 +14,7 @@ mv mbostock-d3-b22dd72 d3
 rm d3.zip
 mkdir jquery-ui
 cd jquery-ui
-wget http://jqueryui.com/download/jquery-ui-1.8.18.custom.zip -O jqueryui.zip
+wget http://jqueryui.com/resources/download/jquery-ui-1.9.2.custom.zip -O jqueryui.zip
 unzip jqueryui.zip
 rm index.html
 rm jqueryui.zip

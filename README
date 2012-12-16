@@ -10,18 +10,13 @@ AUTOMATIC INSTALL
 
 1. install & start memcache
 2. install Node.Js (http://nodejs.org/)
-3. install npm (http://npmjs.org/)
 4. git clone https://github.com/FremaksGmbH/c3netmon-public.git
 5. cd c3netmon-public; chmod +x install.sh; ./install.sh
 
 CONFIGURATION
 
-1. change backend config in backend/config.js
-1a. change user + group to an existing system user (not root!)
-1b. change memcache ip + port so it fits your memcache config
-2. change frontend config in backend/config.js
-2a. change user + group to an existing system user which has write access to public directory (not root!)
-2b. change memcache ip + port so it fits your memcache config
+1. change backend config in backend/config.js [hint: user/group + memcache ip/port]
+2. change frontend config in backend/config.js [hint: user/group + memcache ip/port]
 3. test if c3netmon is working by starting frontend & backend
 3a. cd backend/; node app.js
 3b. cd frontend/; node app.js
@@ -47,7 +42,7 @@ EXTERNAL LIBRARIES USED
 - jQuery JavaScript Library v1.7.1 -> Copyright (C) 2011 by The Dojo Foundation -> See http://jquery.org/
 - Socket.IO.js ->  Copyright (C) 2011 by LearnBoost -> See http://socket.io/
 - d3 -> Copyright (C) 2011 Mike Bostock -> See http://mbostock.github.com/d3/
-- jQuery UI 1.8.16 -> Copyright 2011, AUTHORS.txt -> See http://jqueryui.com/about 
+- jQuery UI 1.9.2 -> Copyright 2012, AUTHORS.txt -> See http://jqueryui.com/about 
 
 LICENSE 
 

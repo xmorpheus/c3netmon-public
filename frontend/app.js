@@ -1,18 +1,22 @@
 var express = require('express'),
-    io = require('socket.io'),
     fs = require('fs'),
     util = require('util'),
     config = require('./config');
 
-var app = express.createServer();
+var app = express()
+  , http = require('http')
+  , server = http.createServer(app)
+  , io = require('socket.io').listen(server);
+
 app.configure(function () {
     app.use(express.static(__dirname + '/public'));
 });
 
-app.listen(config.listenPort, function () {
-    var addr = app.address();
-    console.log('   app listening on http://' + addr.address + ':' + addr.port);
+var connect = server.listen(config.listenPort, function () {
 });
+
+var addr = connect.address();
+console.log('   app listening on http://' + addr.address + ':' + addr.port);
 
 // change to non root after binding port 80
 process.setgid(config.nodeUserGid);
@@ -29,7 +33,6 @@ app.get('/detail', function (req, res) {
 });
 
 // creating socket io socket for connecitong clients
-var io = io.listen(app);
 io.configure('production', function () {
     io.enable('browser client minification'); // send minified client
     io.enable('browser client etag'); // apply etag caching logic based on version number
