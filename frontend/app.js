@@ -12,33 +12,24 @@ app.configure(function () {
     app.use(express.static(__dirname + '/public'));
 });
 
-var connect = server.listen(config.listenPort, function () {
-});
+var connect = server.listen(config.listenPort, '::');
 
-var addr = connect.address();
-console.log('   app listening on http://' + addr.address + ':' + addr.port);
+console.log('created listener on port' + config.listenPort);
 
-// change to non root after binding port 80
+// change to non root after binding port <1024
 process.setgid(config.nodeUserGid);
 process.setuid(config.nodeUserUid);
 
-// bind / to views/index.html
-app.get('/', function (req, res) {
-    res.sendfile(__dirname + '/views/index.html');
-});
+// bind views
+app.get('/', function (req, res) { res.sendfile(__dirname + '/views/index.html'); });
+app.get('/detail', function (req, res) { res.sendfile(__dirname + '/views/detail.html'); });
 
-// bind /detail to views/detail.html
-app.get('/detail', function (req, res) {
-    res.sendfile(__dirname + '/views/detail.html');
-});
-
-// creating socket io socket for connecitong clients
+// creating socket io socket for connecting clients
 io.configure('production', function () {
     io.enable('browser client minification'); // send minified client
     io.enable('browser client etag'); // apply etag caching logic based on version number
     io.enable('browser client gzip'); // gzip the file
     io.set('log level', 0);
-
     io.set('transports', ['websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling']);
 });
 
@@ -47,9 +38,7 @@ var memcache = require('memcache');
 var memcacheConnection = new memcache.Client(config.memcache.port, config.memcache.host);
 memcacheConnection.connect();
 
-var x = io.sockets.on('connection', function (socket) {
-    // nothing todo (yet)
-});
+var x = io.sockets.on('connection', function (socket) { /* nothing todo (yet) */ });
 
 // save last graph generation and save time
 var nextGraph = null;
@@ -58,11 +47,12 @@ var lastData = null;
 
 // check if history already exists (maybe node crashed)
 try {
-    util.print("opening history");
+    console.log("opening history");
     var historyFile = fs.readFileSync("public/history.json", 'utf8');
     var historyData = JSON.parse(historyFile);
 } catch (err) {
     var historyData = new Array();
+    console.log("creating history");
 }
 
 setInterval(function () {
@@ -81,11 +71,10 @@ setInterval(function () {
 
                 var data = JSON.parse(result);
 
-
                 // do we need to graph?
                 if (nextGraph < unixtime) {
                     graph = 1;
-                    nextGraph = unixtime + 60;
+                    nextGraph = unixtime + 10;
                 }
 
                 // generate full data block	   
@@ -100,7 +89,7 @@ setInterval(function () {
                 if (nextSave < unixtime) {
                     historyData.push(data);
                     fs.writeFileSync("public/history.json", JSON.stringify(historyData), 'utf8');
-                    nextSave = unixtime + 300;
+                    nextSave = unixtime + 30;
                 };
 
 

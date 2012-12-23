@@ -8,9 +8,13 @@
 <script src="/misc/d3/d3.layout.min.js"></script>
 <script src="/misc/jquery-ui/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script src="/misc/rickshaw/rickshaw.js"></script>
+<script src="/js/jquery.socialshareprivacy.js"></script>
 <link type="text/css" rel="stylesheet" href="/misc/jquery-ui/jquery-ui-1.9.2.custom/css/smoothness/jquery-ui-1.9.2.custom.min.css">
 <link type="text/css" rel="stylesheet" href="/misc/rickshaw/rickshaw.css">
 <link type="text/css" rel="stylesheet" href="/css/c3netmon.css">
+<link type="text/css" rel="stylesheet" href="/css/font-awesome.css">
+<link type="text/css" rel="stylesheet" href="/css/font-awesome-ie7.css">
+<link type="text/css" rel="stylesheet" href="/css/socialshareprivacy.css">
 <!--
        333333                 tt                               
   cccc    3333 nn nnn    eee  tt    mm mm mmmm   oooo  nn nnn  
@@ -30,12 +34,14 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
     <img id="loading-image" src="/img/loader.gif" alt="Loading..." />
   </div>
 
-  <a href="/"><img src="/img/28c3.png" class="logo" /></a>
+  <a href="/"><img src="/img/29c3.png" class="logo" /></a>
   <div class="header">
     <h2>c3netmon</h2>
-    Realtime 28c3 data served by nodejs + websockets<br>
+    <span class="welcome">
+    Realtime 29C3 data served by nodejs + websockets<br>
     Thanks to the NOC, POC and FEM-Team for providing the data.<br>
     Detailed graphs can be found <a href="/detail" style="color: #FFF">here.</a>
+    </span>
   </div>
 
   <div class="metal-box">
@@ -44,8 +50,8 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
         <td width="49%">
           <table width="100%">
             <tr>
-              <td align="center" width="50%"><h3 class="gauge-title">Data sent</h3><div class="gauge"><h3 class="gauge-value"><span id="bw_up_total">0</span> GB<br></h3></div></td>
-              <td align="center" width="50%"><h3 class="gauge-title">Data received</h3><div class="gauge"><h3 class="gauge-value"><span id="bw_down_total">0</span> GB<br></h3></div></td>
+              <td align="center" width="50%"><h3 class="gauge-title"><i class="icon-arrow-up"></i> Data sent</h3><div class="gauge"><h3 class="gauge-value"><span id="bw_up_total">0</span> GB<br></h3></div></td>
+              <td align="center" width="50%"><h3 class="gauge-title"><i class="icon-arrow-down"></i> Data received</h3><div class="gauge"><h3 class="gauge-value"><span id="bw_down_total">0</span> GB<br></h3></div></td>
             </tr>
           </table>
         </td>
@@ -229,10 +235,13 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
 
   </table>
   <div id="info">
+    <strong>Spread the word!</strong>
+    <div id="socialshareprivacy"></div>
+  </div>
+  <div id="info">
   <strong>Info:</strong> Values in parentheses are peaks. <br>
   Historical data in json format is available <a href="/history.json">here</a>. Current values for your own projects can be found <a href="/current.json">here</a><br>
   <br />
-  <strong>c3netmon</strong> code will be released on <a href="https://github.com/FremaksGmbH/c3netmon-public">github.com/FremaksGmbH/c3netmon-public</a> shortly after the congress. <br> 
   If you have any questions contact morpheus@morphhome.net.
   </div>
 
@@ -245,17 +254,22 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
 <script>
 var detailGraph=1;
 $(window).load(
-    function() {
-
+  function() {
     $.getScript('/js/c3graph.js', function(data, textStatus){
-    });
+  });
 
-    setTimeout("$.getScript('/js/c3data.js', function(data, textStatus){});",250);
-
-
-
+  setTimeout("$.getScript('/js/c3data.js', function(data, textStatus){});",250);
 });
 </script>
+
+<script type="text/javascript">
+jQuery(document).ready(function($){
+  if($('#socialshareprivacy').length > 0){
+    $('#socialshareprivacy').socialSharePrivacy(); 
+  }
+});
+</script>
+
 </body>
 </html>
 
