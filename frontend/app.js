@@ -67,6 +67,13 @@ setInterval(function () {
             unixtime += 3600;
             var graph = null;
 
+		  memcacheConnection.get('backendInfo', function (error, result) {
+			
+			  var info = JSON.parse(result);
+			  fs.writeFileSync("public/info.json", JSON.stringify(info), 'utf8');
+
+		  })
+
             memcacheConnection.get('backendData', function (error, result) {
 
                 var data = JSON.parse(result);

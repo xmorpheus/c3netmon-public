@@ -9,8 +9,10 @@ var graphArray = new Array();
 graphArray.legend = new Array();
 graphArray.Xaxis = new Array();
 graphArray.Yaxis = new Array();
+graphArray.Hover = new Array();
+graphArray.Slider = new Array();
 
-function createGraph(name) {
+function createGraph(name,data) {
 
     if (detailGraph == 1) {
         var globalWidth = 948;
@@ -27,10 +29,13 @@ function createGraph(name) {
 		mySeries.push({ 
 			color: palette.color(),
 			data: Series[name][subKey],
-			name: 'x'+subKey
+			name: data.legend[subKey]
 			})
 
+		/*console.log(mySeries);*/
 	})
+
+    //Rickshaw.Series.zeroFill(mySeries);
 
     graphArray[name] = new Rickshaw.Graph({
         element: document.getElementById(name+"_graph"),
@@ -63,12 +68,12 @@ function createGraph(name) {
     });
     graphArray.Yaxis.name.render();
     if (detailGraph == 1) {
-        var bwSlider = new Rickshaw.Graph.RangeSlider({
-            graph: bwGraph,
-            element: $('#bw_slider')
+        graphArray.Slider.name = new Rickshaw.Graph.RangeSlider({
+            graph: graphArray[name],
+            element: $('#'+name+'_slider')
         });
-        var bwHoverDetail = new Rickshaw.Graph.HoverDetail({
-            graph: bwGraph
+        graphArray.Hover.name = new Rickshaw.Graph.HoverDetail({
+            graph: graphArray[name]
         });
     };
     $('#'+name).show();

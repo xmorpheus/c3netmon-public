@@ -84,155 +84,7 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
   
   <br />
   <table width="100%" cellpadding="0" cellspacing="0">
-    <tr>
-      <td valign="top">
-        <div class="metal-box">
-          <div id="bw">
- 	      <a name="bandwith"></a>
-             <h3 class="gauge-title">Bandwidth</h3>
-            <div class="gauge" style="height:400px">
-	      <strong>Out:</strong> <span id="bw_up_cur"></span>mbit/s (<span id="bw_up_peak"></span>mbit/s) &middot;
-              <strong>In:</strong>  <span id="bw_down_cur"></span>mbit/s (<span id="bw_down_peak"></span>mbit/s) <br><br>              
-              <div id="bw_graph" class="graph-box" style="height:310px;width:950px;"></div>
-              <div id="bw_legend" class="graph-legend"></div>
-	      <div id="bw_slider"></div>
-            </div>
-          </div>
-        </div>
-      </td>            
-    <tr>
-      <td colspan="2"><br /></td>
-    </tr>
-      <td valign="top">
-        <div class="metal-box">
-          <div id="clients">
-	       <a name="clients"></a>
-            <h3 class="gauge-title">Clients</h3>
-            <div class="gauge" style="height:400px">
-              <strong>Wired:</strong> <span id="clients_wired_cur"></span> (<span id="clients_wired_peak"></span>) &middot; 
-              <strong>Wireless:</strong> <span id="clients_wireless_cur"></span> (<span id="clients_wireless_peak"></span>)<br /><br />
-              <div id="clients_graph" class="graph-box" style="height:310px;width:950px;"></div>
-              <div id="clients_legend" class="graph-legend"></div>
-              <div id="clients_slider"></div>
-            </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"><br /></td>
-    </tr>
-    <tr>
-      <td valign="top">
-        <div class="metal-box">
-          <div id="poc">
-           <a name="poc"></a>
-            <h3 class="gauge-title">POC</h3>
-            <div class="gauge" style="height:385px;">
-              <strong>Connected:</strong> <span id="poc_cur"></span> (<span id="poc_peak"></span>)<br /><br />
-              <div id="poc_graph" class="graph-box" style="height:310px;width:950px;"></div>
-              <div id="poc_legend" class="graph-legend"></div>
-              <div id="poc_slider"></div>
-            </div>
-          </div>
-        </div>
-      </td>    
-    <tr>
-      <td colspan="2"><br /></td>
-    </tr>
-      <td valign="top">
-        <div class="metal-box">
-          <div id="streaming">
-	    <a name="streaming"></a>
-            <h3 class="gauge-title">Streaming</h3>
-            <div class="gauge" style="height:415px">
-                <strong>Saal1:</strong> <span id="streaming_saal1_cur"></span> (<span id="streaming_saal1_peak"></span>) &middot; 
-                <strong>Saal2:</strong> <span id="streaming_saal2_cur"></span> (<span id="streaming_saal2_peak"></span>) &middot; 
-                <strong>Saal3:</strong> <span id="streaming_saal3_cur"></span> (<span id="streaming_saal3_peak"></span>)<br /><br />
-                <div id="streaming_graph" class="graph-box" style="height:310px;width:950px;"></div>
-                <div id="streaming_legend" class="graph-legend"></div>
-                <div id="streaming_slider"></div>
-              </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"><br /></td>
-    </tr>
-      <td valign="top">
-        <div class="metal-box">
-          <div id="geiger">
-	    <a name="radiation"></a>
-            <h3 class="gauge-title">Radiation level</h3>
-            <div class="gauge" style="height:385px;">
-              <strong>CPM @ POC:</strong> <span id="geiger_cur"></span> (<span id="geiger_peak"></span>)<br /><br />
-              <div id="geiger_graph" class="graph-box" style="height:310px;width:950px;"></div>
-              <div id="geiger_legend" class="graph-legend"></div>
-              <div id="geiger_slider"></div>
-            </div>
-          </div>
-        </div>
-      </td>    
-    <tr>
-      <td colspan="2"><br /></td>
-    </tr>
-      <td valign="top">
-        <div class="metal-box">
-          <div id="wireless_bands">
-	    <a name="wirelessbands"></a>
-            <h3 class="gauge-title">Wireless Band Usage</h3>
-              <div class="gauge">
-                802.11 &middot; 
-	        <strong>a:</strong> <span id="wireless_bands_a_cur"></span> &middot;
-                <strong>g:</strong> <span id="wireless_bands_g_cur"></span> &middot;
-                <strong>n (2,4GHz):</strong> <span id="wireless_bands_24n_cur"></span>  &middot;
-                <strong>n (5GHz):</strong> <span id="wireless_bands_5n_cur"></span> 
-                <div id="wireless_bands_graph" class="graph-box" style="height:310px;width:950px;"></div>
-                <div id="wireless_bands_legend" class="graph-legend"></div>
-                <div id="wireless_bands_slider"></div>
-              </div>
-          </div>
-        </div>
-      </td>
-  </tr>
-  <tr>
-      <td colspan="2"><br /></td>
-    </tr>
-      <td valign="top">
-        <div class="metal-box">
-          <div id="openbeacon">
-            <a name="openbeacon"></a>
-            <h3 class="gauge-title">OpenBeacon (r0ket)</h3>
-            <div class="gauge">
-              <strong>r0kets visible via OpenBeacon:</strong> <span id="openbeacon_cur"></span> (<span id="openbeacon_peak"></span>)<br /><br />
-              <div id="openbeacon_graph" class="graph-box" style="height:310px;width:950px;"></div>
-              <div id="openbeacon_legend" class="graph-legend"></div>
-              <div id="openbeacon_slider"></div>
-            </div>
-          </div>
-        </div>
-      </td>
- 	 <tr>
-      <td colspan="2"><br /></td>
-    </tr>
-      <td valign="top">
-        <div class="metal-box">
-          <div id="protocols">
-            <a name="protocols"></a>
-            <h3 class="gauge-title">IP Protocol Distribution</h3>
-              <div class="gauge">
-                <strong>IPv4:</strong> <span id="protocols_ipv4_cur"></span>% &middot;
-                <strong>IPv6</strong> <span id="protocols_ipv6_cur"></span>%
-                <div id="protocols_graph" class="graph-box" style="height:310px;width:950px;"></div>
-                <div id="protocols_legend" class="graph-legend"></div>
-                <div id="protocols_slider"></div>
-              </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-
+   <span id="graph"></span>
   </table>
   <div id="info">
     <strong>Spread the word!</strong>
@@ -245,28 +97,23 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
   If you have any questions contact morpheus@morphhome.net.
   </div>
 
-  <div style="text-align:right;margin-right:10px;">
-    <a href="http://fremaks.de" target="_blank"><img src="/img/fremaks.png" /></a>
-  </div>
-
 </div>
 
 <script>
-var detailGraph=1;
-$(window).load(
-  function() {
-    $.getScript('/js/c3graph.js', function(data, textStatus){
-  });
-
-  setTimeout("$.getScript('/js/c3data.js', function(data, textStatus){});",250);
-});
+	var detailGraph=true;
 </script>
+
+<script src="/js/c3graph.js"></script>
+<script src="/js/c3data.js"></script>
 
 <script type="text/javascript">
 jQuery(document).ready(function($){
-  if($('#socialshareprivacy').length > 0){
-    $('#socialshareprivacy').socialSharePrivacy(); 
-  }
+			
+	init();		
+	if($('#socialshareprivacy').length > 0){
+	       $('#socialshareprivacy').socialSharePrivacy();    
+	}
+
 });
 </script>
 

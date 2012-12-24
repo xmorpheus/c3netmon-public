@@ -102,30 +102,15 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
   If you have any questions contact morpheus@morphhome.net.
   </div>
 
-  <div style="text-align:right;margin-right:10px;">
-    <a href="http://fremaks.de" target="_blank"><img src="/img/fremaks.png" /></a>
-  </div>
-
 </div>
 <script src="/js/c3graph.js"></script>
 <script src="/js/c3data.js"></script>
 
-<!---
-<script>
-var detailGraph=null;
-$(window).load(
-  function() {
-    $.getScript('/js/c3graph.js', function(data, textStatus){
-  });
-
-  setTimeout("$.getScript('/js/c3data.js', function(data, textStatus){});",250);
-});
-</script>
--->
-
 <script type="text/javascript">
 jQuery(document).ready(function($){
-  if($('#socialshareprivacy').length > 0){
+		
+   init();		
+   if($('#socialshareprivacy').length > 0){
     $('#socialshareprivacy').socialSharePrivacy(); 
   }
 });

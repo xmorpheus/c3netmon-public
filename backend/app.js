@@ -7,62 +7,57 @@ var fs = require('fs'),
 var child;
 
 // change to non root if run as root
-
 process.setgid(config.nodeUserGid);
 process.setuid(config.nodeUserUid);
 
 // temp data for calulating current bandwith
-
 var temp = {}
-
 temp.collectedData = null;
 temp.last_bw_down = null;
 temp.last_bw_up = null;
 
-// initialzing data cache
-
-var data = {};
-
-var cache = {};
-cache.poc = {}
-cache.streaming = {}
-cache.geiger = {}
-cache.wireless = {}
-cache.clients = {}
-cache.openbeacon = {}
-cache.protocols = {}
+// initialzing data & info cache
+var data = {}
+var info = {}
+info.plugins = []
 
 // connect to memcache
-
 var memcache = require('memcache');
 var memcacheConnection = new memcache.Client(config.memcache.port, config.memcache.host);
 memcacheConnection.connect();
 
 // initial run + timing
-
+initBandwidthData();
 getBandwidthData();
 setInterval(getBandwidthData, 1000);
 
+initClientsData();
 getClientsData();
 setInterval(getClientsData, 20000);
 
+initWirelessBandsData();
 getWirelessBandsData();
 setInterval(getWirelessBandsData, 10000);
 
+initIPProtocolsData();
 getIPProtocolsData();
 setInterval(getIPProtocolsData, 20000);
 
+initPocData();
 getPocData();
 setInterval(getPocData, 30000);
 
+initStreamingData();
 getStreamingData();
 setInterval(getStreamingData, 20000);
 
 setInterval(writeData, 5000);
 
+initOpenBeaconData();
 getOpenBeaconData();
 setInterval(getOpenBeaconData, 20000);
 
+initRadiationData();
 getRadiationData();
 setInterval(getRadiationData, 30000);
 
@@ -79,10 +74,25 @@ function writeData() {
 
         memcacheConnection.set('backendData', JSON.stringify(data), function (error, result) {}, 600); // write data to memcache
 
+  	   memcacheConnection.set('backendInfo', JSON.stringify(info), function (error, result) {}, 600); // write data to memcache
+
         memcacheConnection.set('lastData', unixtime, function (error, result) {}, 600); // write last update time to memcache
     }
 }
 
+function initBandwidthData()
+{
+	info.plugins.push("bw");
+	info.bw = {};
+	info.bw.name = 'Bandwidth';
+	info.bw.legend = [];
+	info.bw.legend.push("Upstream");
+	info.bw.legend.push("Downstream");
+	info.bw.type = [];
+	info.bw.type.push("mbit/s");
+	info.bw.type.push("mbit/s");
+}
+	
 function getBandwidthData() {
     if (config.debug) { console.log("running getBandwidthData()");
     };
@@ -126,16 +136,21 @@ function getBandwidthData() {
 	   data.bw.value.push(parseInt(now.getMinutes()));
 	   data.bw.value.push(parseInt(now.getMinutes()));
     
-	   data.bw.name = 'Bandwidth';
-	   data.bw.legend = [];
-	   data.bw.legend.push("Upstream");
-	   data.bw.legend.push("Downstream");
-	   data.bw.type = [];
-	   data.bw.type.push("mbit/s");
-	   data.bw.type.push("mbit/s");
-    
     }
 
+}
+
+function initClientsData()
+{
+	info.plugins.push("clients");
+	info.clients = {};
+	info.clients.name = 'Clients';
+	info.clients.legend = [];
+	info.clients.legend.push("Wired");
+	info.clients.legend.push("Wireless");
+	info.clients.type = [];
+	info.clients.type.push("");
+	info.clients.type.push("");
 }
 
 function getClientsData() {
@@ -160,25 +175,32 @@ function getClientsData() {
 
     } else {
     
- data.clients = {};
+	data.clients = {};
 
- var now = new Date();
+	var now = new Date();
 
- data.clients.value = [];
- data.clients.value.push(parseInt(now.getMinutes()));
- data.clients.value.push(parseInt(now.getMinutes()));
-     
- data.clients.name = 'Clients';
- data.clients.legend = [];
- data.clients.legend.push("Wireless");
- data.clients.legend.push("Wired");
- data.clients.type = [];
- data.clients.type.push("");
- data.clients.type.push("");
-    
-    
+	data.clients.value = [];
+	data.clients.value.push(parseInt(now.getMinutes()));
+        data.clients.value.push(parseInt(now.getMinutes()));     
     }
 
+}
+
+function initWirelessBandsData()
+{
+	info.plugins.push("wireless");
+	info.wireless = {};
+	info.wireless.name = 'Wireless Bands';
+	info.wireless.legend = [];
+	info.wireless.legend.push("A");
+	info.wireless.legend.push("G");
+	info.wireless.legend.push("N (2,4)");
+	info.wireless.legend.push("N (5)");
+	info.wireless.type = [];
+	info.wireless.type.push("");
+	info.wireless.type.push("");
+        info.wireless.type.push("");
+        info.wireless.type.push("");
 }
 
 function getWirelessBandsData() {
@@ -199,23 +221,30 @@ function getWirelessBandsData() {
     } catch (e) {}
 
     } else {
-data.wireless = {};
 
- var now = new Date();
+	data.wireless = {};
 
- data.wireless.value = [];
- data.wireless.value.push(parseInt(now.getMinutes()));
- data.wireless.value.push(parseInt(now.getMinutes()));
-     
- data.wireless.name = 'Wireless';
- data.wireless.legend = [];
- data.wireless.legend.push("Wireless");
- data.wireless.legend.push("Wired");
- data.wireless.type = [];
- data.wireless.type.push("");
- data.wireless.type.push("");
-    
+ 	var now = new Date();
+
+	data.wireless.value = [];
+	data.wireless.value.push(parseInt(now.getMinutes()));
+	data.wireless.value.push(parseInt(now.getMinutes()));
+        data.wireless.value.push(parseInt(now.getMinutes()));
+        data.wireless.value.push(parseInt(now.getMinutes()));     
     }
+}
+
+function initIPProtocolsData()
+{
+	info.plugins.push("protocols");
+	info.protocols = {};
+	info.protocols.name = 'IP Protocol Distribution';
+	info.protocols.legend = [];
+	info.protocols.legend.push("IPv4");
+	info.protocols.legend.push("IPv6");
+	info.protocols.type = [];
+	info.protocols.type.push("%");
+	info.protocols.type.push("%");
 }
 
 function getIPProtocolsData() {
@@ -243,16 +272,19 @@ function getIPProtocolsData() {
 	   data.protocols.value.push(parseInt(now.getMinutes()));
 	   data.protocols.value.push(parseInt(now.getMinutes()));
 	       
-	   data.protocols.name = 'Protocols';
-	   data.protocols.legend = [];
-	   data.protocols.legend.push("Wireless");
-	   data.protocols.legend.push("Wired");
-	   data.protocols.type = [];
-	   data.protocols.type.push("");
-	   data.protocols.type.push("");
-  
   }
 
+}
+
+function initOpenBeaconData()
+{
+	info.plugins.push("openbeacon");
+	info.openbeacon = {};
+	info.openbeacon.name = 'OpenBeacon';
+	info.openbeacon.legend = [];
+	info.openbeacon.legend.push("r0ckets");
+	info.openbeacon.type = [];
+	info.openbeacon.type.push("");
 }
 
 function getOpenBeaconData() {
@@ -277,18 +309,20 @@ data.openbeacon = {};
 
  data.openbeacon.value = [];
  data.openbeacon.value.push(parseInt(now.getMinutes()));
- data.openbeacon.value.push(parseInt(now.getMinutes()));
-     
- data.openbeacon.name = 'OpenBeacon';
- data.openbeacon.legend = [];
- data.openbeacon.legend.push("Wireless");
- data.openbeacon.legend.push("Wired");
- data.openbeacon.type = [];
- data.openbeacon.type.push("");
- data.openbeacon.type.push("");
 
   }
   
+}
+
+function initRadiationData()
+{
+	info.plugins.push("radiation");
+	info.radiation = {};
+	info.radiation.name = 'Radiation';
+	info.radiation.legend = [];
+	info.radiation.legend.push("Radiation");
+	info.radiation.type = [];
+	info.radiation.type.push("");
 }
 
 function getRadiationData() {
@@ -312,17 +346,20 @@ function getRadiationData() {
 
 	    data.radiation.value = [];
 	    data.radiation.value.push(parseInt(now.getMinutes()));
-	    data.radiation.value.push(parseInt(now.getMinutes()));
-	        
-	    data.radiation.name = 'Radiation';
-	    data.radiation.legend = [];
-	    data.radiation.legend.push("Wireless");
-	    data.radiation.legend.push("Wired");
-	    data.radiation.type = [];
-	    data.radiation.type.push("");
-	    data.radiation.type.push("");
+
    }
 
+}
+
+function initPocData()
+{
+	info.plugins.push("poc");
+	info.poc = {};
+	info.poc.name = 'POC';
+	info.poc.legend = [];
+	info.poc.legend.push("Connected");
+	info.poc.type = [];
+	info.poc.type.push("");
 }
 
 function getPocData() {
@@ -345,17 +382,22 @@ function getPocData() {
 
 		data.poc.value = [];
 		data.poc.value.push(parseInt(now.getMinutes()));
-		data.poc.value.push(parseInt(now.getMinutes()));
-		    
-		data.poc.name = 'POC';
-		data.poc.legend = [];
-		data.poc.legend.push("Wireless");
-		data.poc.legend.push("Wired");
-		data.poc.type = [];
-		data.poc.type.push("");
-		data.poc.type.push("");
     }
 
+}
+
+function initStreamingData()
+{
+	info.plugins.push("streaming");
+	info.streaming = {};
+	info.streaming.name = 'Streaming';
+	info.streaming.legend = [];
+	info.streaming.legend.push("Saal 1");
+	info.streaming.legend.push("Saal 4");
+	info.streaming.legend.push("Saal 6");
+	info.streaming.type = [];
+	info.streaming.type.push("");
+	info.streaming.type.push("");
 }
 
 function getStreamingData() {
@@ -398,14 +440,8 @@ function getStreamingData() {
 		 data.streaming.value = [];
 		 data.streaming.value.push(parseInt(now.getMinutes()));
 		 data.streaming.value.push(parseInt(now.getMinutes()));
+                 data.streaming.value.push(parseInt(now.getMinutes()));
 		     
-		 data.streaming.name = 'Streaming';
-		 data.streaming.legend = [];
-		 data.streaming.legend.push("Wireless");
-		 data.streaming.legend.push("Wired");
-		 data.streaming.type = [];
-		 data.streaming.type.push("");
-		 data.streaming.type.push("");
      }
 
 }

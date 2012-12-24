@@ -1,39 +1,62 @@
 // setup socket for socket.io
 var socket = io.connect();
 
-var graphCount = 0;
+var graphCount = 0
+var max_bandwith = 100;
 
 var config = new Array();
-config.push('bw');
-config.push('clients');
-config.push('poc');
-config.push('streaming');
-config.push('protocols');
-config.push('wireless');
-config.push('openbeacon');
-config.push('radiation');
+var Series = new Array();
+var Peak = new Array();
+
+// temp variable to check if history is loaded
+var history = null;
+
+var cache = [];
+cache.bw_down = null;
+cache.bw_up = null;
+cache.bw_down_total = null;
+cache.bw_up_total = null;
+  
+$.ajaxSetup({
+	"async": false
+});
 
 function initGraphHTML(name,div)
 {
+
 	graphCount++;
+	var width;
+	var height;
+	var members=0;
+	var i=0;
+
+	$.each(Series[name], function(subKey, subValue) {
+		members++;
+	})
+
+	if(detailGraph==false) { width=600; height=250 } else { width=1100; height=400; } 
 
      var html;
 	if(graphCount==0) { html+= '<tr>'; };
-	html += ' <td valign="top" width="600">';
+	html += ' <td valign="top" width="'+width+'">';
      html += '   <div class="metal-box">';
      html += '     <div id="'+name+'" style="display:none;">';
      html += '	     <h3 class="gauge-title"><span id="'+name+'Name"></span></h3>';
-     html += '       <div class="gauge">';
+     html += '       <div class="gauge" style="height:'+height+'px">';
 	$.each(Series[name], function(subKey, subValue) {
-		html += '       <strong><span id="'+name+'Legend'+subKey+'"></span>:</strong> <span id="'+name+'Value'+subKey+'"></span><span id="'+name+'Type'+subKey+'"></span> (<span id="'+name+'_up_peak"></span>mbit/s) &middot;';
+		i++;
+		html += '       <strong><span id="'+name+'Legend'+subKey+'"></span>:</strong> <span id="'+name+'Value'+subKey+'"></span><span id="'+name+'Type'+subKey+'"></span> (<span id="'+name+'Value'+subKey+'Peak"></span>) ';
+		if(i<members) { html += '&middot'; };
+		
+		alert(i + 'test' + members)
 	})
-     html += '       <div id="'+name+'_graph" class="graph-box"></div>';
+     html += '       <div id="'+name+'_graph" class="graph-box" style="height:'+(height-90)+'px;width:'+(width-150)+'px;"></div>';
      html += '       <div id="'+name+'_legend" class="graph-legend"></div>';
-     html += '     </div>';
+	html += '     </div>';
      html += '    </div>';
      html += '   </div>';
      html += ' </td>';
-	if(graphCount==2) 
+	if(graphCount==2 || detailGraph==true) 
 	{
 		graphCount=0; 
 		html +='</tr>'; 
@@ -45,7 +68,7 @@ function initGraphHTML(name,div)
 	}
 }
 
-function initArray(newLength)
+function initGraphArray(newLength)
 {
 	newArray = new Array(newLength);
 	for (var i = 0; i < newArray.length; ++i)
@@ -57,51 +80,63 @@ function initArray(newLength)
 	return newArray;
 }
 
-var Series = new Array();
-
-for (var i = 0; i < config.length; ++i)
+function initArray(newLength)
 {
-	name = config[i];
-	Series[name] = initArray(2);
+	newArray = new Array(newLength);
+	for (var i = 0; i < newArray.length; ++i)
+	{
+		newArray[i] = new Array();
+	}
+
+	return newArray;
 }
 
-// max bandwith for percent graphing
-var max_bandwith = 200;
+function init()
+{
 
-// temp variable to check if history is loaded
-var history = null;
+    $.getJSON('/info.json', function (data) {
 
-// cache for peaks
-var cache = [];
-cache.bw_up = null;
-cache.bw_down = null;
-cache.bw_up_peak = null;
-cache.bw_down_peak = null;
-cache.clients_wired_peak = null;
-cache.clients_wireless_peak = null;
-cache.poc_peak = null;
-cache.geiger_peak = null;
-cache.streaming_saal1_peak = null;
-cache.streaming_saal2_peak = null;
-cache.streaming_saal3_peak = null;
-cache.firstgraph = null;
-cache.bw_up_total = null;
-cache.bw_down_total = null;
-cache.openbeacon_peak = null;
+	   	$.each(data.plugins, function(key, value) 
+		{
+			var members = 0; 
+			
+			config.push(value);
+			Peak.push(value);
 
-var graph = [];
-graph.bw = null;
-graph.clients = null;
-graph.poc = null;
-graph.streaming = null;
-graph.protocols = null;
-graph.wirelessBands = null;
-graph.geiger = null;
-graph.openBeacon = null;
+			$.each(data[value].legend, function(key, value)
+			{
+				members++;
+			})
 
-$.ajaxSetup({
-    "async": false
-});
+        		Series[value] = initGraphArray(members);
+			Peak[value] = initArray(members);
+
+			initGraphHTML(value,"#graph");
+
+			$('#'+value+'Name').html(data[value].name);
+			
+			$.each(data[value].legend, function(lkey, lvalue)
+			{
+				$('#'+value+'Legend'+lkey).html(data[value].legend[lkey]);
+				$('#'+value+'Type'+lkey).html(data[value].type[lkey]);
+			})
+
+			
+		})
+	
+		initHistory();
+
+		$.each(config, function(key, value)
+		{
+			createGraph(value, data[value]);
+			graphArray[value].render();
+		})
+	
+})
+}
+
+function initHistory()
+{
 
 $.getJSON('/history.json', function (data) {
     // got json, removing dummy data
@@ -113,91 +148,80 @@ $.getJSON('/history.json', function (data) {
   	});
     
     var historyCount = 0;
-    var xinit = [];
 
     // update graph arrays with historical data
-    $.each(data, function (key, data) {
+    $.each(data, function (key, datax) {
 
-
-	    $.each(config, function(key, value) 
-	    {
-
-		$.each(Series[value], function(subKey, subValue) {
-
-
-			if(data[value] != null)
-			{	
-				subValue.push({
-					x: data.unixtime,
-					y: data[value].value[subKey]
-				});
-
-				$('#'+value+'Value'+subKey).html(data[value].value[subKey]);
-
-				if(xinit[value] == null)
-				{
-					xinit[value]=1;
-					initGraphHTML(value,"#graph");
-					$('#'+value+'Name').html(data[value].name);
-				
-				}
-				$('#'+value+'Legend'+subKey).html(data[value].legend[subKey]);
-				$('#'+value+'Type'+subKey).html(data[value].type[subKey]);
-			}
-		
-	    		})
-			if(xinit[value]==1)
+	    $.each(datax, function (keyy, datay) 
+		{
+			$.each(config, function(keyz, dataz)
 			{
-				xinit[value]=2;
-				createGraph(value);
-			}	
-	    })
+				if(dataz==keyy)
+				{
 
-    /*if (data.bw.up > cache.bw_up_peak) {*/
-    /*cache.bw_up_peak = data.bw.up;*/
-    /*$('#bw_up_peak').html(data.bw.up);*/
-    /*};*/
-    /*if (data.bw.down > cache.bw_down_peak) {*/
-    /*cache.bw_down_peak = data.bw.down;*/
-    /*$('#bw_down_peak').html(data.bw.down);*/
-    /*};*/
+				/*console.log(Series[dataz]);*/
 
-        cache.bw_down_total += (data.bw.value[0] * 300 / 8 / 1024);
-	   cache.bw_up_total += (data.bw.value[1] * 300 / 8 / 1024);
+					$.each(Series[dataz], function(subKey, subValue) {
 
-        cache.bw_down = data.bw.value[0];
-	   cache.bw_up = data.bw.value[1];
+						if(datax[dataz].value[subKey]==undefined)
+						{
+							datax[dataz].value[subKey]=0;
+						}
 
-        $('#bw_down_cur').html(data.bw.value[0]);
-	   $('#bw_up_cur').html(data.bw.value[1]);
+						subValue.push({
+							x: datax.unixtime,
+							y: datax[dataz].value[subKey]
+						})
 
-    });
+						 $('#'+dataz+'Value'+subKey).html(datax[dataz].value[subKey]);
 
-    cache.bw_up_total = parseInt(cache.bw_up_total);
-    cache.bw_down_total = parseInt(cache.bw_down_total);
+						 if (datax[dataz].value[subKey] > Peak[dataz][subKey])
+						 {
+						 	Peak[dataz][subKey] = datax[dataz].value[subKey];
+							$('#'+dataz+'Value'+subKey+'Peak').html(Peak[dataz][subKey]);
+						 }
 
-    $('#bw_up_total').html(cache.bw_up_total);
-    $('#bw_down_total').html(cache.bw_down_total);
+						 
+					})	
+				}
+			})
+		})
+	
+		// some special manual stuff
 
-    $("#downstream").progressbar({
-        value: (cache.bw_down / max_bandwith * 100)
-    });
-    $("#upstream").progressbar({
-        value: (cache.bw_up / max_bandwith * 100)
-    })
+     	cache.bw_down_total += (datax.bw.value[0] * 300 / 8 / 1024);
+		cache.bw_up_total += (datax.bw.value[1] * 300 / 8 / 1024);
 
-    $('#bw_down_percent').html(parseInt(cache.bw_down / max_bandwith * 100));
-    $('#bw_up_percent').html(parseInt(cache.bw_up / max_bandwith * 100));
+     	cache.bw_down = datax.bw.value[0];
+		cache.bw_up = datax.bw.value[1];
 
-	$.each(config, function(key, value)
-	{
-		graphArray[value].render();
-	})
+     	$('#bw_down_cur').html(datax.bw.value[0]);
+		$('#bw_up_cur').html(datax.bw.value[1]);
+    
+		cache.bw_up_total = parseInt(cache.bw_up_total);
+		cache.bw_down_total = parseInt(cache.bw_down_total);
 
-    $('#loading').hide();
-    history = 1;
+    		$('#bw_up_total').html(cache.bw_up_total);
+    		$('#bw_down_total').html(cache.bw_down_total);
 
-});
+    		$("#downstream").progressbar({
+        		value: (cache.bw_down / max_bandwith * 100)
+    		});
+    		$("#upstream").progressbar({
+     	   value: (cache.bw_up / max_bandwith * 100)
+    		})
+
+    		$('#bw_down_percent').html(parseInt(cache.bw_down / max_bandwith * 100));
+    		$('#bw_up_percent').html(parseInt(cache.bw_up / max_bandwith * 100));
+
+     });
+
+     $('#loading').hide();
+     history = 1;
+
+	});
+
+}
 
 // receive loop
 socket.on('data', function (data) {
@@ -213,17 +237,27 @@ socket.on('data', function (data) {
 	   $.each(config, function(key, value) 
 	   {
 	   	   $.each(Series[value], function(subKey, subValue) {
-		   if(data[value] != null)
+	        if(data[value] != null)
 		   {	
 				subValue.push({
 					x: data.unixtime,
 					y: data[value].value[subKey]													
 				});
-			}
-			$('#'+value+'Value'+subKey).html(data[value].value[subKey]);
+		   }
+		   $('#'+value+'Value'+subKey).html(data[value].value[subKey]);
+		
+ 		   if (data[value].value[subKey] > Peak[value][subKey])
+		   {
+ 				Peak[value][subKey] = data[value].value[subKey];
+				$('#'+value+'Value'+subKey+'Peak').html(Peak[value][subKey]);
+		   }
+
 		   })
+
 		   graphArray[value].render();
 	   })
+
+	   // some special manual stuff
 
 	   cache.bw_down_total += parseInt(data.bw.value[0] * 6.5 / 8 / 1024);
         cache.bw_up_total += parseInt(data.bw.value[1] * 6.5 / 8 / 1024);
@@ -237,18 +271,7 @@ socket.on('data', function (data) {
         });
         $('#bw_down_percent').html(parseInt(data.bw.value[0] / max_bandwith * 100));
         $('#bw_up_percent').html(parseInt(data.bw.value[1] / max_bandwith * 100));
-
-	   /*if (data.bw.up > cache.bw_up_peak) {*/
-	   /*cache.bw_up_peak = data.bw.up;*/
-	   /*$('#bw_up_peak').html(data.bw.up);*/
-	   /*};*/
-	   /*if (data.bw.down > cache.bw_down_peak) {*/
-	   /*cache.bw_down_peak = data.bw.down;*/
-	   /*$('#bw_down_peak').html(data.bw.down);*/
-	   /*};*/
-
-
-
     }
+
 });
 console.log("loaded c3data");
