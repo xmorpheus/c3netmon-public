@@ -47,8 +47,6 @@ function initGraphHTML(name,div)
 		i++;
 		html += '       <strong><span id="'+name+'Legend'+subKey+'"></span>:</strong> <span id="'+name+'Value'+subKey+'"></span><span id="'+name+'Type'+subKey+'"></span> (<span id="'+name+'Value'+subKey+'Peak"></span>) ';
 		if(i<members) { html += '&middot'; };
-		
-		alert(i + 'test' + members)
 	})
      html += '       <div id="'+name+'_graph" class="graph-box" style="height:'+(height-90)+'px;width:'+(width-150)+'px;"></div>';
      html += '       <div id="'+name+'_legend" class="graph-legend"></div>';
