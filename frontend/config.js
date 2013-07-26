@@ -1,7 +1,7 @@
 var config = {}
 config.memcache = {};
 
-config.memcache.host = "94.45.226.90";
+config.memcache.host = "127.0.0.1";
 config.memcache.port = "11211";
 
 config.nodeUserGid = "root";
