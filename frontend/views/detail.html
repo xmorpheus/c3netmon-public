@@ -8,20 +8,19 @@
 <script src="/misc/d3/d3.layout.min.js"></script>
 <script src="/misc/jquery-ui/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script src="/misc/rickshaw/rickshaw.js"></script>
-<script src="/js/jquery.socialshareprivacy.js"></script>
 <link type="text/css" rel="stylesheet" href="/misc/jquery-ui/jquery-ui-1.9.2.custom/css/smoothness/jquery-ui-1.9.2.custom.min.css">
 <link type="text/css" rel="stylesheet" href="/misc/rickshaw/rickshaw.css">
 <link type="text/css" rel="stylesheet" href="/css/c3netmon.css">
-<link type="text/css" rel="stylesheet" href="/css/font-awesome.css">
-<link type="text/css" rel="stylesheet" href="/css/font-awesome-ie7.css">
-<link type="text/css" rel="stylesheet" href="/css/socialshareprivacy.css">
+<script>
+        var detailGraph=true;
+</script>
 <!--
        333333                 tt                               
   cccc    3333 nn nnn    eee  tt    mm mm mmmm   oooo  nn nnn  
 cc       3333  nnn  nn ee   e tttt  mmm  mm  mm oo  oo nnn  nn 
 cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn 
  ccccc 333333  nn   nn  eeeee  tttt mmm  mm  mm  oooo  nn   nn 
-(c) - morpheus - morpheus@morphhome.net
+(c) - morpheus - morpheus@x23.nu
     - UI by _exe
 
 -->
@@ -39,7 +38,7 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
     <h2>c3netmon</h2>
     <span class="welcome">
     Realtime 29C3 data served by nodejs + websockets<br>
-    Thanks to the NOC, POC and FEM-Team for providing the data.<br>
+    Thanks to the NOC, POC, MOC and VOC for providing the data.<br>
     Detailed graphs can be found <a href="/detail" style="color: #FFF">here.</a>
     </span>
   </div>
@@ -87,22 +86,13 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
    <span id="graph"></span>
   </table>
   <div id="info">
-    <strong>Spread the word!</strong>
-    <div id="socialshareprivacy"></div>
-  </div>
-  <div id="info">
   <strong>Info:</strong> Values in parentheses are peaks. <br>
   Historical data in json format is available <a href="/history.json">here</a>. Current values for your own projects can be found <a href="/current.json">here</a><br>
   <br />
-  If you have any questions contact morpheus@morphhome.net.
+  If you have any questions contact morpheus@x23.nu.
   </div>
 
 </div>
-
-<script>
-	var detailGraph=true;
-</script>
-
 <script src="/js/c3graph.js"></script>
 <script src="/js/c3data.js"></script>
 
@@ -110,9 +100,6 @@ cc         333 nn   nn eeeee  tt    mmm  mm  mm oo  oo nn   nn
 jQuery(document).ready(function($){
 			
 	init();		
-	if($('#socialshareprivacy').length > 0){
-	       $('#socialshareprivacy').socialSharePrivacy();    
-	}
 
 });
 </script>

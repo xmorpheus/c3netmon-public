@@ -2,7 +2,7 @@
 var socket = io.connect();
 
 var graphCount = 0
-var max_bandwith = 100;
+var max_bandwith = 22000;
 
 var config = new Array();
 var Series = new Array();
@@ -34,7 +34,7 @@ function initGraphHTML(name,div)
 		members++;
 	})
 
-	if(detailGraph==false) { width=600; height=250 } else { width=1100; height=400; } 
+	if(detailGraph==false) { width=600; height=275 } else { width=1100; height=400; } 
 
      var html;
 	if(graphCount==0) { html+= '<tr>'; };
@@ -45,7 +45,7 @@ function initGraphHTML(name,div)
      html += '       <div class="gauge" style="height:'+height+'px">';
 	$.each(Series[name], function(subKey, subValue) {
 		i++;
-		html += '       <strong><span id="'+name+'Legend'+subKey+'"></span>:</strong> <span id="'+name+'Value'+subKey+'"></span><span id="'+name+'Type'+subKey+'"></span> (<span id="'+name+'Value'+subKey+'Peak"></span>) ';
+		html += '       <strong><span id="'+name+'Legend'+subKey+'"></span>:</strong> <span id="'+name+'Value'+subKey+'"></span> <span id="'+name+'Type'+subKey+'"></span> (<span id="'+name+'Value'+subKey+'Peak"></span>) ';
 		if(i<members) { html += '&middot'; };
 	})
      html += '       <div id="'+name+'_graph" class="graph-box" style="height:'+(height-90)+'px;width:'+(width-150)+'px;"></div>';
@@ -160,24 +160,29 @@ $.getJSON('/history.json', function (data) {
 				/*console.log(Series[dataz]);*/
 
 					$.each(Series[dataz], function(subKey, subValue) {
+						
+						try {
 
-						if(datax[dataz].value[subKey]==undefined)
-						{
-							datax[dataz].value[subKey]=0;
+								if(datax[dataz].value[subKey]>=0)
+								{
+
+                        	                        		subValue.push({
+                	                                        		x: datax.unixtime,
+        	                                                		y: datax[dataz].value[subKey]
+	                                                		})
+								}
+						
+							        $('#'+dataz+'Value'+subKey).html(datax[dataz].value[subKey]);
+
+                                                 		if (datax[dataz].value[subKey] > Peak[dataz][subKey])
+                                                 		{
+                                                        		Peak[dataz][subKey] = datax[dataz].value[subKey];
+                                                        		$('#'+dataz+'Value'+subKey+'Peak').html(Peak[dataz][subKey]);
+                                                 		}
+
+						} catch (e) {
+							// skipping missing data point
 						}
-
-						subValue.push({
-							x: datax.unixtime,
-							y: datax[dataz].value[subKey]
-						})
-
-						 $('#'+dataz+'Value'+subKey).html(datax[dataz].value[subKey]);
-
-						 if (datax[dataz].value[subKey] > Peak[dataz][subKey])
-						 {
-						 	Peak[dataz][subKey] = datax[dataz].value[subKey];
-							$('#'+dataz+'Value'+subKey+'Peak').html(Peak[dataz][subKey]);
-						 }
 
 						 
 					})	
@@ -187,30 +192,34 @@ $.getJSON('/history.json', function (data) {
 	
 		// some special manual stuff
 
-     	cache.bw_down_total += (datax.bw.value[0] * 300 / 8 / 1024);
-		cache.bw_up_total += (datax.bw.value[1] * 300 / 8 / 1024);
+		if(datax.bw.value[0]>0 && datax.bw.value[1]>0)
+		{
+     			cache.bw_down_total += (datax.bw.value[0] * 300 / 8 / 1024);
+			cache.bw_up_total += (datax.bw.value[1] * 300 / 8 / 1024);
 
-     	cache.bw_down = datax.bw.value[0];
-		cache.bw_up = datax.bw.value[1];
+     			cache.bw_down = datax.bw.value[0];
+			cache.bw_up = datax.bw.value[1];
 
-     	$('#bw_down_cur').html(datax.bw.value[0]);
-		$('#bw_up_cur').html(datax.bw.value[1]);
+     			$('#bw_down_cur').html(datax.bw.value[0]);
+			$('#bw_up_cur').html(datax.bw.value[1]);
     
-		cache.bw_up_total = parseInt(cache.bw_up_total);
-		cache.bw_down_total = parseInt(cache.bw_down_total);
+			cache.bw_up_total = parseInt(cache.bw_up_total);
+			cache.bw_down_total = parseInt(cache.bw_down_total);
 
-    		$('#bw_up_total').html(cache.bw_up_total);
-    		$('#bw_down_total').html(cache.bw_down_total);
+    			$('#bw_up_total').html(cache.bw_up_total);
+    			$('#bw_down_total').html(cache.bw_down_total);
 
-    		$("#downstream").progressbar({
-        		value: (cache.bw_down / max_bandwith * 100)
-    		});
-    		$("#upstream").progressbar({
-     	   value: (cache.bw_up / max_bandwith * 100)
-    		})
+    			$("#downstream").progressbar({
+        			value: (cache.bw_down / max_bandwith * 100)
+    			});
 
-    		$('#bw_down_percent').html(parseInt(cache.bw_down / max_bandwith * 100));
-    		$('#bw_up_percent').html(parseInt(cache.bw_up / max_bandwith * 100));
+	    		$("#upstream").progressbar({
+     		   		value: (cache.bw_up / max_bandwith * 100)
+    			})
+
+    			$('#bw_down_percent').html(parseInt(cache.bw_down / max_bandwith * 100));
+    			$('#bw_up_percent').html(parseInt(cache.bw_up / max_bandwith * 100));
+		}
 
      });
 
@@ -257,18 +266,19 @@ socket.on('data', function (data) {
 
 	   // some special manual stuff
 
-	   cache.bw_down_total += parseInt(data.bw.value[0] * 6.5 / 8 / 1024);
-        cache.bw_up_total += parseInt(data.bw.value[1] * 6.5 / 8 / 1024);
-	   $('#bw_up_total').html(parseInt(cache.bw_up_total));
-        $('#bw_down_total').html(parseInt(cache.bw_down_total));
-        $("#downstream").progressbar({
+	   cache.bw_down_total += parseInt(data.bw.value[0] * 10 / 8 / 1024);
+           cache.bw_up_total += parseInt(data.bw.value[1] * 10 / 8 / 1024);
+           $('#bw_down_total').html(parseInt(cache.bw_down_total));
+           $('#bw_up_total').html(parseInt(cache.bw_up_total));
+
+           $("#downstream").progressbar({
 		value: (data.bw.value[0] / max_bandwith * 100)
-        });
-        $("#upstream").progressbar({
-          value: (data.bw.value[1] / max_bandwith * 100)
-        });
-        $('#bw_down_percent').html(parseInt(data.bw.value[0] / max_bandwith * 100));
-        $('#bw_up_percent').html(parseInt(data.bw.value[1] / max_bandwith * 100));
+           });
+           $("#upstream").progressbar({
+           	value: (data.bw.value[1] / max_bandwith * 100)
+           });
+           $('#bw_down_percent').html(parseInt(data.bw.value[0] / max_bandwith * 100));
+           $('#bw_up_percent').html(parseInt(data.bw.value[1] / max_bandwith * 100));
     }
 
 });

@@ -35,7 +35,7 @@ function createGraph(name,data) {
 		/*console.log(mySeries);*/
 	})
 
-    //Rickshaw.Series.zeroFill(mySeries);
+    Rickshaw.Series.zeroFill(mySeries);
 
     graphArray[name] = new Rickshaw.Graph({
         element: document.getElementById(name+"_graph"),
@@ -68,10 +68,10 @@ function createGraph(name,data) {
     });
     graphArray.Yaxis.name.render();
     if (detailGraph == 1) {
-        graphArray.Slider.name = new Rickshaw.Graph.RangeSlider({
-            graph: graphArray[name],
-            element: $('#'+name+'_slider')
-        });
+	    /*graphArray.Slider.name = new Rickshaw.Graph.RangeSlider({*/
+	    /*graph: graphArray[name],*/
+	    /*element: $('#'+name+'_slider')*/
+	    /*});*/
         graphArray.Hover.name = new Rickshaw.Graph.HoverDetail({
             graph: graphArray[name]
         });

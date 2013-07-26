@@ -1,7 +1,7 @@
 cd backend
-rm node_modules -rf
+rm -rf node_modules
 cd ../frontend
-rm node_modules -rf
-rm public/misc/* -rf
+rm -rf node_modules 
+rm -rf public/misc/* 
 rm public/history.json
 rm public/current.json

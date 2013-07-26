@@ -282,7 +282,7 @@ function initOpenBeaconData()
 	info.openbeacon = {};
 	info.openbeacon.name = 'OpenBeacon';
 	info.openbeacon.legend = [];
-	info.openbeacon.legend.push("r0ckets");
+	info.openbeacon.legend.push("r0kets");
 	info.openbeacon.type = [];
 	info.openbeacon.type.push("");
 }
@@ -355,11 +355,13 @@ function initPocData()
 {
 	info.plugins.push("poc");
 	info.poc = {};
-	info.poc.name = 'POC';
+	info.poc.name = 'POC / NOC';
 	info.poc.legend = [];
-	info.poc.legend.push("Connected");
+	info.poc.legend.push("POC");
+	info.poc.legend.push("MOC");
 	info.poc.type = [];
-	info.poc.type.push("");
+	info.poc.type.push("POC");
+	info.poc.type.push("MOC");
 }
 
 function getPocData() {
@@ -382,6 +384,7 @@ function getPocData() {
 
 		data.poc.value = [];
 		data.poc.value.push(parseInt(now.getMinutes()));
+                data.poc.value.push(parseInt(now.getMinutes()));
     }
 
 }

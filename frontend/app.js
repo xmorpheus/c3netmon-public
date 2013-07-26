@@ -12,13 +12,12 @@ app.configure(function () {
     app.use(express.static(__dirname + '/public'));
 });
 
-var connect = server.listen(config.listenPort, '::');
+var connect = server.listen(config.listenPort, '::',  function() {
+  process.setgid(config.nodeUserGid);
+  process.setuid(config.nodeUserUid);
+});
 
 console.log('created listener on port' + config.listenPort);
-
-// change to non root after binding port <1024
-process.setgid(config.nodeUserGid);
-process.setuid(config.nodeUserUid);
 
 // bind views
 app.get('/', function (req, res) { res.sendfile(__dirname + '/views/index.html'); });
@@ -96,7 +95,7 @@ setInterval(function () {
                 if (nextSave < unixtime) {
                     historyData.push(data);
                     fs.writeFileSync("public/history.json", JSON.stringify(historyData), 'utf8');
-                    nextSave = unixtime + 30;
+                    nextSave = unixtime + 300;
                 };
 
 
@@ -106,3 +105,8 @@ setInterval(function () {
         }
     })
 }, 1000);
+
+
+// change to non root after binding port <1024
+process.setgid(config.nodeUserGid);
+process.setuid(config.nodeUserUid);
