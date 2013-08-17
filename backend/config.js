@@ -8,7 +8,7 @@ config.nodeUserGid = "root";
 config.nodeUserUid = "root";
 
 config.debug = true;
-config.dummy = true;
+config.dummy = false;
 
 module.exports = config;
 

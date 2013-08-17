@@ -1,6 +1,6 @@
 #!/bin/bash
 WLCIP="127.0.0.1"
-WLCCOMMUNITY="abcdefgh" 
+WLCCOMMUNITY="abc"
 
 clientsA=0
 clientsG=0
