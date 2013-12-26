@@ -1,8 +1,8 @@
 // setup socket for socket.io
 var socket = io.connect();
 
-var graphCount = 0
-var max_bandwith = 22000;
+var graphCount = 0;
+var max_bandwith = 50000;
 
 var config = new Array();
 var Series = new Array();
@@ -24,7 +24,6 @@ $.ajaxSetup({
 function initGraphHTML(name,div)
 {
 
-	graphCount++;
 	var width;
 	var height;
 	var members=0;
@@ -34,11 +33,10 @@ function initGraphHTML(name,div)
 		members++;
 	})
 
-	if(detailGraph==false) { width=600; height=275 } else { width=1100; height=400; } 
+	if(detailGraph==false) { width=500; height=300; heightx=400 } else { width=1000; height=450; heightx=550 }
 
      var html;
-	if(graphCount==0) { html+= '<tr>'; };
-	html += ' <td valign="top" width="'+width+'">';
+	html = ' <div style="height:'+heightx+'px;width:'+width+'px;float:left">';
      html += '   <div class="metal-box">';
      html += '     <div id="'+name+'" style="display:none;">';
      html += '	     <h3 class="gauge-title"><span id="'+name+'Name"></span></h3>';
@@ -53,16 +51,15 @@ function initGraphHTML(name,div)
 	html += '     </div>';
      html += '    </div>';
      html += '   </div>';
-     html += ' </td>';
+     html += ' </div>';
+	graphCount++;
 	if(graphCount==2 || detailGraph==true) 
 	{
 		graphCount=0; 
-		html +='</tr>'; 
 	}
 	$(div).append(html);
 	if(graphCount==0)
 	{
-		$(div).append('<tr><td colspan=2><br></td></tr>');
 	}
 }
 
