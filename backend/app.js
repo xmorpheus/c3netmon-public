@@ -44,10 +44,13 @@ setInterval(getBandwidthData, 30000);
 initClientsData();
 getClientsData();
 setInterval(getClientsData, 50000);
+*/
 
 initWirelessBandsData();
 getWirelessBandsData();
 setInterval(getWirelessBandsData, 60000);
+
+/*
 
 initPocData();
 getPocData();
