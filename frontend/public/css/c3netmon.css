@@ -2,8 +2,8 @@ body {
   font-family: Signika, Signika-Light, Signika-Semibold, Verdana;
   font-size: 13px;
   padding-top: 20px;
-  background: #eee url(/img/ps_neutral.png);
-  color: #0090d3;
+  background: url(/img/Blackhole-2880x1600.jpg) fixed;
+  color: #00bfd5;
 }
 
 ul {
@@ -11,18 +11,22 @@ ul {
   padding: 0px !important;
 }
 
+#container-head {
+  width: 1000px;
+  height: 120px;
+  margin: 0 auto;
+}
+
 #container {
   width: 1000px;
   margin: 0 auto;
   margin-bottom: 100px;
   padding: 15px;
-  background: rgba(255, 255, 255, 0.6);
-  border-top: 4px solid #0090d3;
-  box-shadow: 0px 0px 7px #eee;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .metal-box {
-  margin-left: 0px;
   padding: 10px;
   text-shadow: 0px 1px 0px #fff;
   background: #fff;
@@ -30,8 +34,8 @@ ul {
   background-image: -moz-linear-gradient(top, #efefef 0%, #f7f7f77 100%);
   background-image: linear-gradient(top, #efefef 0%, #f7f7f7 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#efefef', EndColorStr='#f7f7f7'); /* IE6–IE9 */
-  border: 1px solid #ddd;
-  box-shadow: 0px 0px 2px #eee;
+  border-top: 4px solid #00a8bc;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
 }
 .caption {
   font-weight: bold;
@@ -40,10 +44,8 @@ ul {
 
 .gauge-title {
   font-size: 18px;
-  color: #231f20;
+  color: #007280;
   text-transform: uppercase;
-}
-.gauge-title {
   line-height: 8px;
   padding-left: 8px;
   margin: 15px 8px;
@@ -56,10 +58,10 @@ ul {
   line-height: 7px;
 }
 .gauge {    
-  background: #fff;
+  background: #e2f3f5;
+  border: 1px solid #c6e8ec;
   padding: 10px;
   font-size: 12px;
-  background: #fff;
 }
 #bw .gauge,
 #clients .gauge,
@@ -71,23 +73,27 @@ ul {
 
 img.logo {
   float: left;
-  width: 400px;
+  width: 200px;
+  margin-top: -10px;
 }
 
 .header {
   height: 85px;
   margin-left: 520px;
+  padding: 10px 15px 0px 15px;
+  border: 2px solid #0099ab;
+  background: rgba(0, 114, 128, 0.5);
 }
 
 h2 {  
-  color: #0090d3;
+  color: #fff;
   font-size: 15px;
   margin: 0px;
   padding: 0px;
 }
 .welcome {
   font-size: 12px;
-  color: #0090d3;
+  color: #fff;
 }
 
 #info {
@@ -96,11 +102,16 @@ h2 {
   margin: -15px;
   margin-top: 0px;
   padding: 10px;
-  background: #0090d3;
+  border-top: 10px solid #00bfd5;
+  background: #0099ab;
 }
-#info a {
-  color: #000;
+
+a {
+  color: #fff;
   font-weight: bold;
+}
+a:hover {
+  color: #007280;
 }
 
 #loading {
@@ -140,7 +151,7 @@ h2 {
   width:425px;
 }
 .graph-legend {  
-  color: #0090d3;
+  color: #0099ab;
   text-shadow: 0px 0px 2px #0090d3;
   padding: 0px;  
   padding-left: 0px;
