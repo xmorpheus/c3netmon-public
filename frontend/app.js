@@ -8,9 +8,7 @@ var app = express()
   , server = http.createServer(app)
   , io = require('socket.io').listen(server);
 
-app.configure(function () {
-    app.use(express.static(__dirname + '/public'));
-});
+app.use(express.static(__dirname + '/public'));
 
 var connect = server.listen(config.listenPort, '::',  function() {
   process.setgid(config.nodeUserGid);
@@ -24,10 +22,7 @@ app.get('/', function (req, res) { res.sendfile(__dirname + '/views/index.html')
 app.get('/detail', function (req, res) { res.sendfile(__dirname + '/views/detail.html'); });
 
 // creating socket io socket for connecting clients
-io.configure('production', function () {
-    io.enable('browser client minification'); // send minified client
-    io.enable('browser client etag'); // apply etag caching logic based on version number
-    io.enable('browser client gzip'); // gzip the file
+io.on('connection', function () {
     io.set('log level', 0);
     io.set('transports', ['websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling']);
 });
